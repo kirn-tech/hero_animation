@@ -1,0 +1,20 @@
+name: hero_animation
+description: Hero-animates it's child from one layout position to another within the same Route.
+version: 1.0.0
+homepage: https://github.com/kirn-tech/hero_animation.git
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+
