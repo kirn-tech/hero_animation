@@ -14,7 +14,7 @@ import 'package:hero_animation/src/hero/widgets.dart';
 typedef HeroAnimationBuilder = Widget Function(
     BuildContext context, FlightState state, Widget? child);
 
-/// Hero-animates it's child from one layout position to another within
+/// Hero-animates its child from one layout position to another within
 /// the same Route.
 ///
 /// If between two frames, the position of a `HeroAnimation` with the same [tag]
@@ -27,7 +27,7 @@ typedef HeroAnimationBuilder = Widget Function(
 ///
 /// 1. [HeroAnimation.builder]
 ///
-/// Provides [FlightState], so a child widget can rebuild it's subtree according
+/// Provides [FlightState], so a child widget can rebuild its subtree according
 /// to it, e.g change opacity when a hero
 /// flight started == [FlightState.flightStarted].
 ///
@@ -48,24 +48,24 @@ typedef HeroAnimationBuilder = Widget Function(
 ///
 ///  ========================HOW IT FLIES?=====================================
 ///
-///  Then same HeroAnimation [child] is inflated to
+///  HeroAnimation [child] is inflated to
 ///  [HeroStill] and [HeroFly] widgets.
 ///
-///  When HeroAnimation is still [HeroStill] is visible, [HeroFly]
-///  is hidden on the same position.
+///  When a hero is still - [HeroStill] is visible, [HeroFly]
+///  is hidden in the same position.
 ///
-///  When HeroAnimation is flying, than it's vise versa - [HeroFly] is visible,
+///  When the hero flies, then it's vice versa - [HeroFly] is visible,
 ///  [HeroStill] is hidden.
 ///
-///  To get fly destination position HeroAnimation checks appearance in a tree of
-///  other HeroAnimation widget with the same [tag],
+///  To get the fly destination position HeroAnimation checks the appearance in a tree of
+///  another HeroAnimation widget with the same [tag],
 ///  than [HeroAnimationController] animates change of layout position
 ///  from one to another HeroAnimation.
 ///
 /// ===========================================================================
 ///
-/// [HeroFly] uses an [Overlay] usually created by [WidgetsApp] or
-/// [MaterialApp], if this 'default' [Overlay] doesn't suit you, consider usage
+/// [HeroFly] uses a [Overlay] usually created by [WidgetsApp] or
+/// [MaterialApp], if this 'default' [Overlay] doesn't suit you, consider the usage
 /// of [HeroAnimationOverlay].
 ///
 
@@ -87,7 +87,7 @@ class HeroAnimation extends StatefulWidget {
   final String tag;
 
   /// The widget subtree that will "fly" from one hero position to another once
-  /// hero with the same [tag] changes it's layout position.
+  /// hero with the same [tag] changes its layout position.
   ///
   /// Changes in scale and aspect ratio work well in hero animations, as well as
   /// changes in layout or composition, which are made according to [FlightState]
@@ -139,7 +139,7 @@ class HeroAnimation extends StatefulWidget {
 }
 
 class HeroAnimationState extends State<HeroAnimation> {
-  static final Map<String, HeroEntry> _map = <String, HeroEntry>{};
+  static final Map<String, HeroScope> _map = <String, HeroScope>{};
   late HeroAnimationController controller;
 
   @override
@@ -155,7 +155,7 @@ class HeroAnimationState extends State<HeroAnimation> {
         vsync: vsync,
       );
       final flyOverlay = HeroFly.insertOverlay(context, controller, widget);
-      _map.putIfAbsent(widget.tag, () => HeroEntry(controller, flyOverlay, 1));
+      _map.putIfAbsent(widget.tag, () => HeroScope(controller, flyOverlay, 1));
     } else {
       _map[widget.tag]?.count++;
     }
@@ -164,12 +164,12 @@ class HeroAnimationState extends State<HeroAnimation> {
 
   @override
   void dispose() {
-    final controllerEntry = _map[widget.tag];
-    if (controllerEntry != null) {
-      controllerEntry.count--;
-      if (controllerEntry.count == 0) {
+    final heroScope = _map[widget.tag];
+    if (heroScope != null) {
+      heroScope.count--;
+      if (heroScope.count == 0) {
         _map.remove(widget.tag);
-        controllerEntry.flyOverlay.remove();
+        heroScope.flyOverlay.remove();
         controller.dispose();
       }
     }
@@ -192,7 +192,7 @@ class HeroAnimationState extends State<HeroAnimation> {
   }
 }
 
-/// HeroAnimation FlightState, allows hero child subtree to change its
+/// HeroAnimation FlightState, allows the hero child subtree to change its
 /// properties accordingly.
 ///
 /// FlightState:
@@ -202,14 +202,14 @@ class HeroAnimationState extends State<HeroAnimation> {
 ///
 /// [flightStarted] - [HeroFly] becomes visible and starts to 'fly',
 /// [HeroStill] is invisible.
-/// Might be called multiple time for the same hero,
+/// Might be called multiple times for the same hero,
 /// on each call [flightCount] is incremented.
 ///
-/// [flightEnded] -  [HeroStill] becomes visible at new position,
+/// [flightEnded] -  [HeroStill] becomes visible at a new position,
 /// [HeroFly] is invisible
 ///
 ///
-/// [flightCount] could be used by hero child subtree to distinguish between,
+/// [flightCount] could be used by the hero child subtree to distinguish between,
 /// 'intentional' flight and some adjustment flights that could happen when
 /// adjacent widget layout is changed, e.g. new child is added to a parent Row or Column.
 ///
@@ -233,7 +233,7 @@ class FlightState {
   }
 }
 
-///Incapsulates [FlightState] instance creation.
+///Encapsulates [FlightState] instance creation.
 extension FlightStateFactory on FlightState {
   static FlightState onInit() {
     return FlightState._(Mode.initial, flightCount: 0);
@@ -259,12 +259,17 @@ enum Mode {
   flightEnded,
 }
 
-class HeroEntry {
+class HeroScope {
+  /// starts animation between differences in HeroStill positions
   final HeroAnimationController controller;
+
+  /// associated with [tag] HeroFly lives here
   final OverlayEntry flyOverlay;
+
+  /// count of HeroStill in a tree
   int count;
 
-  HeroEntry(
+  HeroScope(
     this.controller,
     this.flyOverlay,
     this.count,

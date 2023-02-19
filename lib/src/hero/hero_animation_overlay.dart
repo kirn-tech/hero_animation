@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 /// HeroAnimation appears as `OverlayEntry`, inserted in `Overlay` which is usually
 /// created by `WidgetsApp` or a `MaterialApp`, but if rendering area of HeroAnimation
-/// doesn't match rendering area of 'default' Overlay, eg. hero is added in `TabBarView`
-/// than to adjust it's rendering area use `HeroAnimationFlyOverlay`.
+/// doesn't match the rendering area of 'default' Overlay, eg. hero is added in `TabBarView`
+/// then to adjust its rendering area use `HeroAnimationFlyOverlay`.
 ///
 class HeroAnimationOverlay extends StatefulWidget {
   const HeroAnimationOverlay({

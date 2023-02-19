@@ -3,14 +3,21 @@
 
 Hero-animates it's child from one layout position to another within the same Route.
 
+<p align="center">
+	<img src="https://user-images.githubusercontent.com/88337052/219969853-3d7fe470-8f27-4a9c-b2b8-ad134b5cdcee.gif" />
+</p>
+
+# How it works?
+
+Read [the article](https://kirn.tech/hero-animation-within-the-same-route-in-flutter)
 
 ## Usage
 
 Hero animation is triggered when between two frames, the position of a `HeroAnimation` with the same tag changes.
 
-Use `key` to allow Flutter framework to detect HeroAnimation repositioning under the same tree node.
+Use `key` to allow the Flutter framework to detect HeroAnimation repositioning under the same tree node.
 
-`HeroAnimationTheme` provides flight configuration to underlying heroes, must be `HeroAnimation` widgets ancestor.
+`HeroAnimationTheme` provides flight configuration to underlying heroes, which must be `HeroAnimation` widgets ancestor.
 
 ```dart
   Alignment alignment = Alignment.centerLeft;
@@ -82,8 +89,8 @@ Use `key` to allow Flutter framework to detect HeroAnimation repositioning under
 ```
 ### Tip:
 HeroAnimation appears as `OverlayEntry`, inserted in `Overlay` which is usually created by `WidgetsApp` or a `MaterialApp`,
-but if rendering area of HeroAnimation doesn't match rendering area of that 'default' Overlay, eg.
-hero is added in `TabBarView` than to adjust it's rendering area use `HeroAnimationOverlay`.
+but if the rendering area of HeroAnimation doesn't match the rendering area of that 'default' Overlay, eg.
+hero is added in `TabBarView` then to adjust its rendering area use `HeroAnimationOverlay`.
 
 
 ## Repositioning between different tree nodes.

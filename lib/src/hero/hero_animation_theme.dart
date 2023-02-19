@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// Must be above [HeroAnimation] widgets.
 class HeroAnimationTheme extends StatefulWidget {
   /// All hero animations under this widget will have the specified
-  /// [duration], [curve], and [createRectTween] - interpolation between start
+  /// [duration], [curve], and [createRectTween] - interpolation between the start
   /// and end hero positions.
   const HeroAnimationTheme({
     Key? key,
@@ -23,7 +23,7 @@ class HeroAnimationTheme extends StatefulWidget {
   /// Signature for a function that takes two [Rect] instances and returns a
   /// [RectTween] that transitions between them.
   /// This is used with a [HeroAnimationController] to provide an animation for
-  /// [HeroAnimation] positions that looks nicer than a linear movement.
+  /// [HeroAnimation] positions that look nicer than a linear movement.
   ///
   /// Default: [MaterialRectArcTween].
   final CreateRectTween createRectTween;

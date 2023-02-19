@@ -5,3 +5,7 @@
 ## 1.0.0+1 
 
 * Update SDK version.
+
+## 1.0.0+2
+
+* Update docs, readme file.
