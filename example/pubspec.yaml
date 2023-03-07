@@ -15,6 +15,7 @@ dependencies:
   adaptive_breakpoints: 0.1.4
 
   cupertino_icons: ^1.0.2
+  animated_item_picker: ^2.0.0
   hero_animation:
     path: ../
 

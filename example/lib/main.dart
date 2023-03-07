@@ -9,20 +9,20 @@ void main() {
   runApp(const MyApp());
 }
 
+const heroAnimationDuration = 1000;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return HeroAnimationTheme(
-      duration: const Duration(milliseconds: 750),
+      duration: const Duration(milliseconds: heroAnimationDuration),
       curve: Curves.easeOutCubic,
       child: MaterialApp(
         home: Builder(builder: (context) {
           return AppThemeProvider(
-            theme: isDisplayDesktop(context)
-                ? AppTheme.desktop()
-                : AppTheme.mobile(),
+            theme: AppTheme.mobile(),
             child: DefaultTabController(
               length: 2,
               child: Builder(builder: (context) {

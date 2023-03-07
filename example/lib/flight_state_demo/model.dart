@@ -1,24 +1,26 @@
+import 'package:flutter/material.dart';
+
 enum Item { one, two, three, four, five, six, seven, eight }
 
 extension ItemX on Item {
-  String getTitle(bool landed) {
+  Color color() {
     switch (this) {
       case Item.one:
-        return landed ? "Landed first item" : "First item";
+        return Colors.red;
       case Item.two:
-        return landed ? "Landed second item" : "Second item";
+        return Colors.blue;
       case Item.three:
-        return landed ? "Landed third item" : "Third item";
+        return Colors.purpleAccent;
       case Item.four:
-        return landed ? "Landed fourth item" : "Fourth item";
+        return Colors.green;
       case Item.five:
-        return landed ? "Landed fifth item" : "Fifth item";
+        return Colors.yellow;
       case Item.six:
-        return landed ? "Landed sixth item" : "Sixth item";
+        return Colors.cyan;
       case Item.seven:
-        return landed ? "Landed seventh item" : "Seventh item";
+        return Colors.orange;
       case Item.eight:
-        return '\n';
+        return Colors.transparent;
     }
   }
 }

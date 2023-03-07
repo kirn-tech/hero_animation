@@ -9,6 +9,8 @@ Hero-animates it's child from one layout position to another within the same Rou
 
 # How it works?
 
+Watch [on Youtube](https://www.youtube.com/watch?v=rut_h17D_kE&t=54s)
+
 Read [the article](https://kirn.tech/hero-animation-within-the-same-route-in-flutter)
 
 ## Usage

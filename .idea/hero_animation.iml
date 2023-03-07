@@ -225,6 +225,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/gradle_deprecated_settings/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/gradle_deprecated_settings/build" />
       <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/gradle_deprecated_settings/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/windows_startup_test/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/windows_startup_test/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/windows_startup_test/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/spell_check/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/spell_check/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.fvm/flutter_sdk/dev/integration_tests/spell_check/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

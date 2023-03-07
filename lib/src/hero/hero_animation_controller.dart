@@ -45,9 +45,9 @@ class HeroAnimationController {
 
   void _onAnimationStatusChanged(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
+      _animation = AlwaysStoppedAnimation(_animation?.value);
       _controller.reset();
       _isAnimating = false;
-      _animation = null;
     }
   }
 

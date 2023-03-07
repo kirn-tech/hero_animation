@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hero_animation/src/hero/hero_animation.dart';
 import 'package:hero_animation/src/hero/hero_animation_controller.dart';
 import 'package:hero_animation/src/hero/render_objects.dart';

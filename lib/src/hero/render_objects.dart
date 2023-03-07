@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hero_animation/src/hero/hero_animation_controller.dart';
 
@@ -50,10 +51,14 @@ class HeroFlyingRenderObject extends RenderProxyBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Rect? animR = _controller.animation?.value;
-    if (animR != null) {
+    if (animR == null) {
+      return;
+    }
+
+    if (_controller.isAnimating) {
       super.paint(context, Offset(animR.left, animR.top));
     } else {
-      context.pushOpacity(offset, 0, super.paint);
+      context.pushOpacity(Offset(animR.left, animR.top), 0, super.paint);
     }
   }
 

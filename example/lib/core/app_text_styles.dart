@@ -7,9 +7,12 @@ class AppTextStyles {
 
   final TextStyle h2;
 
+  final TextStyle h3;
+
   const AppTextStyles._({
     this.h1 = _undefinedStyle,
     this.h2 = _undefinedStyle,
+    this.h3 = _undefinedStyle,
   });
 
   factory AppTextStyles.desktop() {
@@ -18,22 +21,25 @@ class AppTextStyles {
         fontSize: 30.0,
         decoration: TextDecoration.underline,
       ),
-      h2: _createTextStyle(
-        fontSize: 40.0,
+      h2: _createTextStyle(fontSize: 40.0, fontWeight: FontWeight.w600),
+      h3: _createTextStyle(
+        fontSize: 32.0,
       ),
     );
   }
 
   factory AppTextStyles.mobile() {
     return AppTextStyles._(
-      h1: _createTextStyle(
-        fontSize: 16.0,
-        decoration: TextDecoration.underline,
-      ),
-      h2: _createTextStyle(
-        fontSize: 20.0,
-      ),
-    );
+        h1: _createTextStyle(
+          fontSize: 16.0,
+          decoration: TextDecoration.underline,
+        ),
+        h2: _createTextStyle(
+          fontSize: 20.0,
+        ),
+        h3: _createTextStyle(
+          fontSize: 18.0,
+        ));
   }
 
   static TextStyle _createTextStyle({
@@ -42,9 +48,9 @@ class AppTextStyles {
     TextDecoration? decoration,
   }) {
     return TextStyle(
-      fontSize: fontSize,
-      fontWeight: fontWeight ?? FontWeight.normal,
-      decoration: decoration,
-    );
+        fontSize: fontSize,
+        fontWeight: fontWeight ?? FontWeight.normal,
+        decoration: decoration,
+        letterSpacing: 1.1);
   }
 }
