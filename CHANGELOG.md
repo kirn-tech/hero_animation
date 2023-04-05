@@ -9,3 +9,7 @@
 ## 1.0.0+2
 
 * Update docs, readme file.
+
+## 1.0.0+3
+
+* Update state demo example.
