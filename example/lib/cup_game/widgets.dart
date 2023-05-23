@@ -1,12 +1,12 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hero_animation/hero_animation.dart';
 
 class CupHero extends StatefulWidget {
-  final String tag;
   final bool hasBall;
 
-  const CupHero({required this.tag, required this.hasBall, required Key key})
-      : super(key: key);
+  const CupHero({required this.hasBall, Key? key}) : super(key: key);
 
   @override
   State<CupHero> createState() => _CupHeroState();
@@ -50,30 +50,44 @@ class _CupHeroState extends State<CupHero> with SingleTickerProviderStateMixin {
           _controller.forward(from: 0.0);
         }
       },
-      child: HeroAnimation.child(
-        tag: widget.tag,
-        child: Stack(
-          children: [
-            widget.hasBall
-                ? Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/im_ball.png',
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink(),
-            Transform.translate(
-              offset: Offset(0.0, -100.0 * _animation.value),
-              child: Image.asset(
-                'assets/im_cup.png',
-              ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return GestureDetector(
+            onTap: () {
+              if (_controller.value > 0.0) {
+                _controller.reverse();
+              } else {
+                _controller.forward(from: 0.0);
+              }
+            },
+            child: Stack(
+              children: [
+                widget.hasBall
+                    ? Positioned.fill(
+                        top: constraints.maxHeight / 7,
+                        child: FractionallySizedBox(
+                          widthFactor: 0.3,
+                          heightFactor: 0.3,
+                          child: Image.asset(
+                            'assets/im_ball.png',
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: (constraints.maxHeight / 2) *
+                      _animation.value,
+                  child: Image.asset(
+                    'assets/im_cup.png',
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

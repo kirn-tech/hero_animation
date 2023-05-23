@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:example/cup_game/widgets.dart';
+import 'package:example/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hero_animation/hero_animation.dart';
 
@@ -22,32 +22,41 @@ class _CupGamePageState extends State<CupGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return HeroAnimationOverlay(
+    return HeroAnimationScene(
+      duration: const Duration(milliseconds: heroAnimationDuration),
+      curve: Curves.easeOutCubic,
       child: Column(
         children: [
           Expanded(
+            flex: 4,
             child: Row(
-                children: _cups
-                    .map(
-                      (e) => Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          alignment: Alignment.center,
-                          child: CupHero(
-                            key: ValueKey(e),
-                            tag: e,
-                            hasBall: _covered == e,
-                          ),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ..._cups.map(
+                  (e) => Expanded(
+                    key: ValueKey(e),
+                    child: FractionallySizedBox(
+                      widthFactor: 0.8,
+                      heightFactor: 0.8,
+                      child: HeroAnimation.child(
+                        tag: e,
+                        key: ValueKey(e),
+                        child: CupHero(
+                          hasBall: e == _covered,
                         ),
                       ),
-                    )
-                    .toList()),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           CupertinoButton(
             padding: const EdgeInsets.only(bottom: 64),
             child: const Text('SHUFFLE'),
             onPressed: () {
-              //should be disabled when hero animation runs
               setState(() {
                 _shuffle();
               });
@@ -73,8 +82,11 @@ class _CupGamePageState extends State<CupGamePage> {
     final unShuffled = List.of(_cups);
     _cups.shuffle();
     final shuffled = _cups;
-    if (const ListEquality().equals(unShuffled, shuffled)) {
-      _shuffle();
+    for (int i = 0; i < unShuffled.length; i++) {
+      if (unShuffled[i] != shuffled[i]) {
+        return;
+      }
     }
+    _shuffle();
   }
 }

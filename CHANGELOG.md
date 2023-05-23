@@ -13,3 +13,8 @@
 ## 1.0.0+3
 
 * Update state demo example.
+
+## 1.1.0
+
+* Works in Scrollable.
+* Fixed FlightState update. 

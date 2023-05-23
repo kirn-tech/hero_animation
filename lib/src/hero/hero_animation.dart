@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hero_animation/src/hero/hero_animation_controller.dart';
-import 'package:hero_animation/src/hero/hero_animation_theme.dart';
-import 'package:hero_animation/src/hero/widgets.dart';
+
+import 'hero_animation_scene.dart';
+import 'hero_still.dart';
+import 'models.dart';
 
 /// Builds a [Widget] when given a concrete value of a [FlightState].
 ///
@@ -29,13 +32,13 @@ typedef HeroAnimationBuilder = Widget Function(
 ///
 /// Provides [FlightState], so a child widget can rebuild its subtree according
 /// to it, e.g change opacity when a hero
-/// flight started == [FlightState.flightStarted].
+/// flight started == [FlightState.isFlightStarted].
 ///
 /// ``` dart
 /// HeroAnimation.builder(
 ///       builder: (context, flightState, child) {
 ///         return AnimatedOpacity(
-///           opacity: flightState.flightStartedMode() ? 0.5 : 1.0,
+///           opacity: flightState.isFlightStarted() ? 0.5 : 1.0,
 ///           child: child,
 ///           ),
 ///         })
@@ -64,10 +67,6 @@ typedef HeroAnimationBuilder = Widget Function(
 ///
 /// ===========================================================================
 ///
-/// [HeroFly] uses a [Overlay] usually created by [WidgetsApp] or
-/// [MaterialApp], if this 'default' [Overlay] doesn't suit you, consider the usage
-/// of [HeroAnimationOverlay].
-///
 
 class HeroAnimation extends StatefulWidget {
   /// A [HeroAnimationBuilder] which builds a widget depending on the
@@ -81,7 +80,7 @@ class HeroAnimation extends StatefulWidget {
 
   /// The identifier for this particular hero.
   ///
-  /// tag is used to trigger [child] flight, when within the same frame
+  /// `tag` is used to trigger [child] flight, when within the same frame
   /// HeroAnimation with the same tag is removed from one place in a tree and
   /// is inserted into another.
   final String tag;
@@ -101,7 +100,7 @@ class HeroAnimation extends StatefulWidget {
   ///       tag: tag,
   ///       builder: (context, flightState, child) {
   ///         return AnimatedSwitcher(
-  ///                 child: Text(flightState.flightEndedMode()
+  ///                 child: Text(flightState.isFlightEnded()
   ///                   ? 'flight ended text' : 'initial text' ));
   ///       },);
   /// ```
@@ -139,139 +138,31 @@ class HeroAnimation extends StatefulWidget {
 }
 
 class HeroAnimationState extends State<HeroAnimation> {
-  static final Map<String, HeroScope> _map = <String, HeroScope>{};
-  late HeroAnimationController controller;
+  late ScopeRegistrar scopeRegistrar;
+  late Scope scope;
 
   @override
   void initState() {
+    scopeRegistrar = context.findAncestorStateOfType<HeroAnimationSceneState>()
+        as ScopeRegistrar;
+    scope = scopeRegistrar.register(widget);
+
+    ServicesBinding.instance.addPostFrameCallback((_) {
+      if (scope.controller.flightState.value.isInitial()) {
+        scope.controller.onAppeared();
+      }
+    });
     super.initState();
-    if (!_map.containsKey(widget.tag)) {
-      final scope = context.getHeroAnimationTheme();
-      final vsync = context.getHeroAnimationTickerProvider();
-      final controller = HeroAnimationController(
-        duration: scope.duration,
-        provideRectTween: scope.createRectTween,
-        curve: scope.curve,
-        vsync: vsync,
-      );
-      final flyOverlay = HeroFly.insertOverlay(context, controller, widget);
-      _map.putIfAbsent(widget.tag, () => HeroScope(controller, flyOverlay, 1));
-    } else {
-      _map[widget.tag]?.count++;
-    }
-    controller = _map[widget.tag]!.controller;
   }
 
   @override
   void dispose() {
-    final heroScope = _map[widget.tag];
-    if (heroScope != null) {
-      heroScope.count--;
-      if (heroScope.count == 0) {
-        _map.remove(widget.tag);
-        heroScope.flyOverlay.remove();
-        controller.dispose();
-      }
-    }
+    scopeRegistrar.unregister(widget);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return HeroStill(
-      controller: controller,
-      child: widget.heroBuilder != null
-          ? ValueListenableBuilder<FlightState>(
-              valueListenable: controller.flightState,
-              builder: (context, value, child) =>
-                  widget.heroBuilder!.call(context, value, child),
-              child: widget.child,
-            )
-          : widget.child,
-    );
+    return HeroStill(scope: scope);
   }
-}
-
-/// HeroAnimation FlightState, allows the hero child subtree to change its
-/// properties accordingly.
-///
-/// FlightState:
-///
-/// [appeared] - [HeroStill] is rendered for the first time,
-/// [HeroFly] is invisible
-///
-/// [flightStarted] - [HeroFly] becomes visible and starts to 'fly',
-/// [HeroStill] is invisible.
-/// Might be called multiple times for the same hero,
-/// on each call [flightCount] is incremented.
-///
-/// [flightEnded] -  [HeroStill] becomes visible at a new position,
-/// [HeroFly] is invisible
-///
-///
-/// [flightCount] could be used by the hero child subtree to distinguish between,
-/// 'intentional' flight and some adjustment flights that could happen when
-/// adjacent widget layout is changed, e.g. new child is added to a parent Row or Column.
-///
-class FlightState {
-  final Mode _mode;
-  final int flightCount;
-
-  FlightState._(this._mode, {required this.flightCount});
-
-  bool initial() => _mode == Mode.initial;
-
-  bool appeared() => _mode == Mode.appeared;
-
-  bool flightStarted() => _mode == Mode.flightStarted;
-
-  bool flightEnded() => _mode == Mode.flightEnded;
-
-  @override
-  String toString() {
-    return 'FlightState: $_mode, flightCount: $flightCount';
-  }
-}
-
-///Encapsulates [FlightState] instance creation.
-extension FlightStateFactory on FlightState {
-  static FlightState onInit() {
-    return FlightState._(Mode.initial, flightCount: 0);
-  }
-
-  FlightState onFlightStarted() {
-    return FlightState._(Mode.flightStarted, flightCount: flightCount + 1);
-  }
-
-  FlightState onAppeared() {
-    return FlightState._(Mode.appeared, flightCount: flightCount);
-  }
-
-  FlightState onFlightEnded() {
-    return FlightState._(Mode.flightEnded, flightCount: flightCount);
-  }
-}
-
-enum Mode {
-  initial,
-  appeared,
-  flightStarted,
-  flightEnded,
-}
-
-class HeroScope {
-  /// starts animation between differences in HeroStill positions
-  final HeroAnimationController controller;
-
-  /// associated with [tag] HeroFly lives here
-  final OverlayEntry flyOverlay;
-
-  /// count of HeroStill in a tree
-  int count;
-
-  HeroScope(
-    this.controller,
-    this.flyOverlay,
-    this.count,
-  );
 }

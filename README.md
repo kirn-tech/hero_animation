@@ -2,6 +2,7 @@
 # HeroAnimation
 
 Hero-animates it's child from one layout position to another within the same Route.
+Works in Scrollable.
 
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/88337052/219969853-3d7fe470-8f27-4a9c-b2b8-ad134b5cdcee.gif" />
@@ -19,14 +20,15 @@ Hero animation is triggered when between two frames, the position of a `HeroAnim
 
 Use `key` to allow the Flutter framework to detect HeroAnimation repositioning under the same tree node.
 
-`HeroAnimationTheme` provides flight configuration to underlying heroes, which must be `HeroAnimation` widgets ancestor.
+`HeroAnimationScene` provides flight configuration to underlying heroes, which must be `HeroAnimation` widgets ancestor.
 
 ```dart
   Alignment alignment = Alignment.centerLeft;
   
   @override
   Widget build(BuildContext context) {
-    return HeroAnimationTheme(
+    
+    return HeroAnimationScene(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
         child: GestureDetector(
@@ -72,8 +74,7 @@ Use `key` to allow the Flutter framework to detect HeroAnimation repositioning u
 ```dart
   @override
   Widget build(BuildContext context) {
-    return HeroAnimationOverlay(
-      child: Row(
+    return Row(
           children: _cups
               .map(
                 (e) => Expanded(
@@ -85,14 +86,10 @@ Use `key` to allow the Flutter framework to detect HeroAnimation repositioning u
                     ),
                   ),
                 ),
-         ).toList()),
+         ).toList(),
     );
   }
 ```
-### Tip:
-HeroAnimation appears as `OverlayEntry`, inserted in `Overlay` which is usually created by `WidgetsApp` or a `MaterialApp`,
-but if the rendering area of HeroAnimation doesn't match the rendering area of that 'default' Overlay, eg.
-hero is added in `TabBarView` then to adjust its rendering area use `HeroAnimationOverlay`.
 
 
 ## Repositioning between different tree nodes.
@@ -122,30 +119,29 @@ Text change by `landedItem` hero is done by receiving `flightEnded` state for th
 Next hero animations within a column caused by adding new items are ignored by checking  `flightState.flightCount` > 1.
 
 ```dart
+  @override
+Widget build(BuildContext context) {
+  return Column(
+      children: <Widget>[
+        ..._landedItems.map(
+                (item)
+            =>
+                HeroAnimation.builder(
+                  tag: item.name,
+                  builder: (context, flightState, child) {
+                    final firstFlightEnded = flightState.firstFlightEnded();
 
-
-   @override
-  Widget build(BuildContext context) {
-    return Column(
-        children: <Widget>[
-    ..._landedItems.map(
-    (item) => HeroAnimation.builder(
-      tag: item.name,
-      builder: (context, flightState, child) {
-        final firstFlightEnded =
-            flightState.flightEnded() ||
-                flightState.flightCount > 1;
-        return AnimatedSwitcher(
-          child: Container(
-            alignment: Alignment.centerLeft,
-            key: ValueKey(firstFlightEnded),
-            child: Text(
-              item.getTitle(firstFlightEnded),
-             ),
-            ),
-         );
-        },
-       ),
-     ),),
-  }
+                    return AnimatedSwitcher(
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        key: ValueKey(firstFlightEnded),
+                        child: Text(
+                          item.getTitle(firstFlightEnded),
+                        ),
+                      ),
+                    );
+                  },
+                ))
+      ]);
+}
 ```
