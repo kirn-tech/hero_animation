@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
         child: DefaultTabController(
           length: 2,
           child: Builder(builder: (context) {
-            // return FlightStateDemoPage();
-            // return CupGamePage();
             return Scaffold(
               appBar: AppBar(
                 title: TabBar(

@@ -18,3 +18,7 @@
 
 * Works in Scrollable.
 * Fixed FlightState update. 
+
+## 1.1.1
+
+* Refactor.

@@ -61,13 +61,13 @@ class HeroAnimationController {
     _controller =
         AnimationController(vsync: _vsync, duration: _initialDuration);
     _controller.addStatusListener(_resetAnimationListener);
-    _controller.addListener(_emitAnimationState);
+    _controller.addListener(_animationControllerListener);
   }
 
   void dispose() {
     _flightState.dispose();
     _eventPipeline.dispose();
-    _controller.removeListener(_emitAnimationState);
+    _controller.removeListener(_animationControllerListener);
     _controller.removeStatusListener(_resetAnimationListener);
     _controller.dispose();
   }
@@ -77,7 +77,7 @@ class HeroAnimationController {
   ValueListenable<FlightState> get flightState => _flightState;
 
   bool get isFlyVisible =>
-      ((_controller.isAnimating || _heroRepositioned) && !_screenSizeChanged);
+      (_controller.isAnimating || _heroRepositioned) && !_screenSizeChanged;
 
   void animateIfNeeded(Rect rect, Size screenSize) async {
     _heroRepositioned = rect != _lastRect;
@@ -104,7 +104,7 @@ class HeroAnimationController {
   }
 
   void onAppeared() {
-    _setAnimationState(mode: FlightMode.appeared);
+    _emitEvent(mode: FlightMode.appeared);
   }
 
   bool _checkIsScreenSizeIsTheSame(Size screenSize) =>
@@ -115,39 +115,35 @@ class HeroAnimationController {
 
   void _repositionFly() {
     ServicesBinding.instance.addPostFrameCallback((_) {
-      _setAnimationState(layoutRect: _lastRect);
+      _emitEvent(layoutRect: _lastRect);
     });
   }
 
-  void _emitAnimationState() {
+  void _animationControllerListener() {
     final status = _controller.status;
     if (status == AnimationStatus.forward ||
         status == AnimationStatus.reverse) {
-      _setAnimationState(mode: FlightMode.flightStarted);
+      _emitEvent(mode: FlightMode.flightStarted);
     } else if (status == AnimationStatus.completed ||
         status == AnimationStatus.dismissed) {
-      _setAnimationState(mode: FlightMode.flightEnded);
+      _emitEvent(mode: FlightMode.flightEnded);
     } else {
-      _setAnimationState(layoutRect: _animation?.value);
+      _emitEvent(layoutRect: _animation?.value);
     }
   }
 
-  _setAnimationState({Rect? layoutRect, FlightMode? mode}) {
+  _emitEvent({Rect? layoutRect, FlightMode? mode}) {
     FlightState? newFlightState;
 
     switch (mode) {
       case FlightMode.appeared:
-        newFlightState = _eventPipeline.value.flightState.onAppeared();
+        newFlightState = _flightState.value.onAppeared();
         break;
       case FlightMode.flightStarted:
-        if (!flightState.value.isFlightStarted()) {
-          newFlightState = _eventPipeline.value.flightState.onFlightStarted();
-        }
+        newFlightState = _flightState.value.onFlightStarted();
         break;
       case FlightMode.flightEnded:
-        if (!flightState.value.isFlightEnded()) {
-          newFlightState = _eventPipeline.value.flightState.onFlightEnded();
-        }
+        newFlightState = _flightState.value.onFlightEnded();
         break;
       default:
     }

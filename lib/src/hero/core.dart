@@ -26,3 +26,12 @@ class ValueNotifierMapper<S, R> extends ValueNotifier<R> {
     super.dispose();
   }
 }
+
+extension ValueNotifierSetter<T> on ValueNotifier<T> {
+  void setValue(T? newValue) {
+    if (newValue == null) {
+      return;
+    }
+    value = newValue;
+  }
+}

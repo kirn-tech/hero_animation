@@ -23,9 +23,13 @@ import 'dart:ui';
 ///
 class FlightState {
   final FlightMode _mode;
-  final int flightCount;
 
-  FlightState._(this._mode, {required this.flightCount});
+  final int _flightCount;
+
+  FlightState._(this._mode, {required int flightCount})
+      : _flightCount = flightCount;
+
+  int get flightCount => _flightCount;
 
   bool isInitial() => _mode == FlightMode.initial;
 
@@ -41,10 +45,10 @@ class FlightState {
       other is FlightState &&
           runtimeType == other.runtimeType &&
           _mode == other._mode &&
-          flightCount == other.flightCount;
+          _flightCount == other._flightCount;
 
   @override
-  int get hashCode => _mode.hashCode ^ flightCount.hashCode;
+  int get hashCode => _mode.hashCode ^ _flightCount.hashCode;
 
   @override
   String toString() {
@@ -87,6 +91,7 @@ enum FlightMode {
 class Event {
   ///Current FlightState
   final FlightState flightState;
+
   ///Current HeroAnimation position.
   ///Used by HeroFly only.
   final Rect layoutRect;
