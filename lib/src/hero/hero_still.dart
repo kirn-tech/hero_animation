@@ -97,7 +97,8 @@ class HeroStillRenderObject extends RenderProxyBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final globalOffset = globalPosition();
+    final globalOffset = localToGlobal(Offset.zero,
+        ancestor: findRenderObjectOfType<HeroSceneMarkerRenderObject>());
 
     final layoutRect =
         Rect.fromPoints(globalOffset, size.bottomRight(globalOffset));
@@ -117,15 +118,15 @@ class HeroStillRenderObject extends RenderProxyBox {
 }
 
 extension RenderObjectExtension on RenderBox {
-  Offset globalPosition() {
+  RenderObject? findRenderObjectOfType<T>() {
     AbstractNode? node = this;
 
     while (node != null) {
-      if (node is HeroSceneMarkerRenderObject) {
-        return localToGlobal(Offset.zero, ancestor: node);
+      if (node is RenderObject && node is T) {
+        return node;
       }
       node = node.parent as RenderObject?;
     }
-    return Offset.zero;
+    return null;
   }
 }

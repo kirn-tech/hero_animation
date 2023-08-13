@@ -1,6 +1,6 @@
 name: hero_animation
 description: Hero-animates it's child from one layout position to another within the same Route.
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/kirn-tech/hero_animation.git
 
 environment:

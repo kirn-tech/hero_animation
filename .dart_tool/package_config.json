@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "async",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/async-2.10.0",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/async-2.11.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -15,7 +15,7 @@
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/characters-1.2.1",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/characters-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -27,9 +27,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/collection-1.17.0",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/collection-1.17.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.18"
     },
     {
       "name": "fake_async",
@@ -39,27 +39,27 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/sg/fvm/versions/3.3.9/packages/flutter",
+      "rootUri": "file:///Users/sg/fvm/versions/3.10.2/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/flutter_lints-2.0.1",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/flutter_lints-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.18"
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/sg/fvm/versions/3.3.9/packages/flutter_test",
+      "rootUri": "file:///Users/sg/fvm/versions/3.10.2/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/js-0.6.5",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
-      "languageVersion": "2.16"
+      "languageVersion": "2.19"
     },
     {
       "name": "lints",
@@ -69,7 +69,7 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/matcher-0.12.13",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/matcher-0.12.15",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -81,21 +81,21 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/meta-1.8.0",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/meta-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "path",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/path-1.8.2",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/path-1.8.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/sg/fvm/versions/3.3.9/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/sg/fvm/versions/3.10.2/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "source_span",
@@ -129,7 +129,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/test_api-0.4.16",
+      "rootUri": "file:///Users/sg/.pub-cache/hosted/pub.dev/test_api-0.5.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -146,7 +146,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-07-08T07:55:41.832372Z",
+  "generated": "2023-07-26T08:15:34.886775Z",
   "generator": "pub",
-  "generatorVersion": "2.19.2"
+  "generatorVersion": "3.0.2"
 }
