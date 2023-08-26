@@ -26,3 +26,7 @@
 ## 1.1.2
 
 * Refactor.
+
+## 1.1.3
+
+* Resolve warnings.

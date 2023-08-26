@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -119,10 +118,10 @@ class HeroStillRenderObject extends RenderProxyBox {
 
 extension RenderObjectExtension on RenderBox {
   RenderObject? findRenderObjectOfType<T>() {
-    AbstractNode? node = this;
+    RenderObject? node = this;
 
     while (node != null) {
-      if (node is RenderObject && node is T) {
+      if (node is T) {
         return node;
       }
       node = node.parent as RenderObject?;
