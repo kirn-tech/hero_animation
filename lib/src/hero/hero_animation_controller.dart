@@ -48,15 +48,18 @@ class HeroAnimationController {
         _initialDuration = duration {
     final initialState = FlightStateFactory.initial();
 
-    _eventPipeline = ValueNotifier<Event>(Event(
-      flightState: initialState,
-      layoutRect: Rect.zero,
-    ));
+    _eventPipeline = ValueNotifier<Event>(
+      Event(
+        flightState: initialState,
+        layoutRect: Rect.zero,
+      ),
+    );
 
     _flightState = ValueNotifierMapper<Event, FlightState>(
-        source: _eventPipeline,
-        map: (event) => event.flightState,
-        initialValue: initialState);
+      source: _eventPipeline,
+      map: (event) => event.flightState,
+      initialValue: initialState,
+    );
 
     _controller =
         AnimationController(vsync: _vsync, duration: _initialDuration);
@@ -79,7 +82,7 @@ class HeroAnimationController {
   bool get isFlyVisible =>
       (_controller.isAnimating || _heroRepositioned) && !_screenSizeChanged;
 
-  void animateIfNeeded(Rect rect, Size screenSize) async {
+  void animateIfNeeded(Rect rect, Size screenSize) {
     _heroRepositioned = rect != _lastRect;
     _screenSizeChanged = screenSize != _currentScreenSize;
     if (_layoutRectHasChanged(rect) &&
@@ -91,8 +94,10 @@ class HeroAnimationController {
       if (!_controller.isAnimating) {
         _controller.forward();
       } else {
-        _controller.animateTo(1,
-            duration: _controller.duration! * (1 - _controller.value));
+        _controller.animateTo(
+          1,
+          duration: _controller.duration! * (1 - _controller.value),
+        );
       }
     }
 
@@ -124,15 +129,14 @@ class HeroAnimationController {
     if (status == AnimationStatus.forward ||
         status == AnimationStatus.reverse) {
       _emitEvent(mode: FlightMode.flightStarted);
-    } else if (status == AnimationStatus.completed ||
-        status == AnimationStatus.dismissed) {
+    } else if (status == AnimationStatus.completed) {
       _emitEvent(mode: FlightMode.flightEnded);
     } else {
       _emitEvent(layoutRect: _animation?.value);
     }
   }
 
-  _emitEvent({Rect? layoutRect, FlightMode? mode}) {
+  void _emitEvent({Rect? layoutRect, FlightMode? mode}) {
     FlightState? newFlightState;
 
     switch (mode) {
@@ -149,8 +153,9 @@ class HeroAnimationController {
     }
 
     _eventPipeline.value = _eventPipeline.value.copyWith(
-        layoutRect: layoutRect ?? _animation?.value,
-        flightState: newFlightState ?? _eventPipeline.value.flightState);
+      layoutRect: layoutRect ?? _animation?.value,
+      flightState: newFlightState ?? _eventPipeline.value.flightState,
+    );
   }
 
   void _resetAnimationListener(AnimationStatus status) {

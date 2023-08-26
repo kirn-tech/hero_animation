@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import 'hero_animation_controller.dart';
-import 'hero_animation_scene.dart';
-import 'models.dart';
+import 'package:hero_animation/src/hero/hero_animation_controller.dart';
+import 'package:hero_animation/src/hero/hero_animation_scene.dart';
+import 'package:hero_animation/src/hero/models.dart';
 
 class HeroFly extends StatelessWidget {
   final Scope scope;
@@ -24,11 +23,15 @@ class HeroFly extends StatelessWidget {
             width: event.layoutRect.size.width,
             height: event.layoutRect.size.height,
             child: VisibilityController(
-                controller: scope.controller,
-                child: heroAnimation.heroBuilder != null
-                    ? heroAnimation.heroBuilder!(
-                        context, event.flightState, heroChild)
-                    : heroChild),
+              controller: scope.controller,
+              child: heroAnimation.heroBuilder != null
+                  ? heroAnimation.heroBuilder!(
+                      context,
+                      event.flightState,
+                      heroChild,
+                    )
+                  : heroChild,
+            ),
           ),
         );
       },
@@ -41,8 +44,8 @@ class VisibilityController extends SingleChildRenderObjectWidget {
   final HeroAnimationController controller;
 
   const VisibilityController({
-    Key? key,
     required this.controller,
+    Key? key,
     Widget? child,
   }) : super(key: key, child: child);
 
@@ -64,7 +67,7 @@ class HeroFlyingRenderObject extends RenderProxyBox {
     _controller = controller;
   }
 
-  set controller(HeroAnimationController value) {
+  void setController(HeroAnimationController value) {
     if (_controller != value) {
       _controller = value;
       markNeedsPaint();

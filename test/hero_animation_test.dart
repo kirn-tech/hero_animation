@@ -7,8 +7,8 @@ import 'package:hero_animation/src/hero/hero_still.dart';
 
 void main() {
   testWidgets(
-      'hero animation starts after position is changed, flight count is incremented',
-      (tester) async {
+      'hero animation starts after position is changed, flight count '
+      'is incremented', (tester) async {
     //initial position
 
     await tester.pumpWidget(
@@ -17,8 +17,8 @@ void main() {
       ),
     );
 
-    final HeroAnimationState superHeroState =
-        tester.state(find.byType(HeroAnimation));
+    final superHeroState =
+        tester.state(find.byType(HeroAnimation)) as HeroAnimationState;
     final controller = superHeroState.scope.controller;
 
     expect(controller.flightState.value.isAppeared(), isTrue);
@@ -93,8 +93,8 @@ class TestWidget extends StatelessWidget {
   final Alignment alignment;
 
   const TestWidget({
-    Key? key,
     required this.alignment,
+    Key? key,
   }) : super(key: key);
 
   @override

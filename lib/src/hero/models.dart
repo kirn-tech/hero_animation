@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:hero_animation/src/hero/hero_fly.dart';
+import 'package:hero_animation/src/hero/hero_still.dart';
 
 /// HeroAnimation FlightState, allows the hero child subtree to change its
 /// properties accordingly.
@@ -17,9 +19,10 @@ import 'dart:ui';
 /// [HeroFly] is invisible
 ///
 ///
-/// [flightCount] could be used by the hero child subtree to distinguish between,
-/// 'intentional' flight and some adjustment flights that could happen when
-/// adjacent widget layout is changed, e.g. new child is added to a parent Row or Column.
+/// [flightCount] could be used by the hero child subtree to distinguish
+/// between, 'intentional' flight and some adjustment flights that could
+/// happen when adjacent widget layout is changed, e.g. new child is added
+/// to a parent Row or Column.
 ///
 class FlightState {
   final FlightMode _mode;
@@ -108,8 +111,9 @@ class Event {
 
   Event copyWith({FlightState? flightState, Rect? layoutRect}) {
     return Event(
-        flightState: flightState ?? this.flightState,
-        layoutRect: layoutRect ?? this.layoutRect);
+      flightState: flightState ?? this.flightState,
+      layoutRect: layoutRect ?? this.layoutRect,
+    );
   }
 
   @override

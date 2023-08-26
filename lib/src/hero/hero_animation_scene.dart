@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-
-import 'hero_animation.dart';
-import 'hero_animation_controller.dart';
-import 'hero_fly.dart';
-
+import 'package:hero_animation/src/hero/hero_animation.dart';
+import 'package:hero_animation/src/hero/hero_animation_controller.dart';
+import 'package:hero_animation/src/hero/hero_fly.dart';
+import 'package:hero_animation/src/hero/hero_still.dart';
 
 /// Root Widget for hero animation to run.
 ///
@@ -36,7 +35,6 @@ import 'hero_fly.dart';
 /// }
 
 class HeroAnimationScene extends StatefulWidget {
-
   ///Child subtree containing HeroAnimation's
   final Widget child;
 
@@ -55,11 +53,11 @@ class HeroAnimationScene extends StatefulWidget {
   final CreateRectTween createRectTween;
 
   const HeroAnimationScene({
-    Key? key,
     required this.duration,
+    required this.child,
+    Key? key,
     this.curve = Curves.linear,
     this.createRectTween = _defaultCreateTweenRect,
-    required this.child,
   }) : super(key: key);
 
   @override
@@ -140,8 +138,8 @@ class Scope {
 ///Used for HeroStill position detection in [HeroStillRenderObject]
 class HeroSceneMarker extends SingleChildRenderObjectWidget {
   const HeroSceneMarker({
-    Key? key,
     required Widget child,
+    Key? key,
   }) : super(key: key, child: child);
 
   @override
@@ -165,8 +163,7 @@ class ScopeRegistrarImpl implements ScopeRegistrar {
     required CreateRectTween createRectTween,
     required Curve curve,
     required TickerProvider vsync,
-  })
-      : _duration = duration,
+  })  : _duration = duration,
         _createRectTween = createRectTween,
         _curve = curve,
         _vsync = vsync;
@@ -184,13 +181,13 @@ class ScopeRegistrarImpl implements ScopeRegistrar {
         tag: heroAnimation.tag,
       );
       _map.putIfAbsent(
-          heroAnimation.tag,
-              () =>
-              Scope(
-                controller: controller,
-                widget: heroAnimation,
-                count: 1,
-              ));
+        heroAnimation.tag,
+        () => Scope(
+          controller: controller,
+          widget: heroAnimation,
+          count: 1,
+        ),
+      );
     } else {
       _map[heroAnimation.tag]?.count++;
     }

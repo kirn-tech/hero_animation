@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -78,8 +76,7 @@ class _CupHeroState extends State<CupHero> with SingleTickerProviderStateMixin {
                   left: 0,
                   right: 0,
                   top: 0,
-                  bottom: (constraints.maxHeight / 2) *
-                      _animation.value,
+                  bottom: (constraints.maxHeight / 2) * _animation.value,
                   child: Image.asset(
                     'assets/im_cup.png',
                   ),

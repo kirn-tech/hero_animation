@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-
-import 'hero_animation_scene.dart';
-import 'hero_still.dart';
-import 'models.dart';
+import 'package:hero_animation/src/hero/hero_animation_controller.dart';
+import 'package:hero_animation/src/hero/hero_animation_scene.dart';
+import 'package:hero_animation/src/hero/hero_fly.dart';
+import 'package:hero_animation/src/hero/hero_still.dart';
+import 'package:hero_animation/src/hero/models.dart';
 
 /// Builds a [Widget] when given a concrete value of a [FlightState].
 ///
 /// [HeroAnimationBuilder] is triggered via [ValueListenableBuilder] and it's
 /// `child` parameter behaves similarly - If the `child` parameter provided to
-/// the [HeroAnimationBuilder] is not null, the same `child` widget is passed back
-/// to this [HeroAnimationBuilder] and should typically be incorporated in the
-/// returned widget tree.
+/// the [HeroAnimationBuilder] is not null, the same `child` widget is
+/// passed back to this [HeroAnimationBuilder] and should typically be
+/// incorporated in the returned widget tree.
 ///
 typedef HeroAnimationBuilder = Widget Function(
-    BuildContext context, FlightState state, Widget? child);
+  BuildContext context,
+  FlightState state,
+  Widget? child,
+);
 
 /// Hero-animates its child from one layout position to another within
 /// the same Route.
@@ -60,8 +63,8 @@ typedef HeroAnimationBuilder = Widget Function(
 ///  When the hero flies, then it's vice versa - [HeroFly] is visible,
 ///  [HeroStill] is hidden.
 ///
-///  To get the fly destination position HeroAnimation checks the appearance in a tree of
-///  another HeroAnimation widget with the same [tag],
+///  To get the fly destination position HeroAnimation checks the
+///  appearance in a tree of another HeroAnimation widget with the same [tag],
 ///  than [HeroAnimationController] animates change of layout position
 ///  from one to another HeroAnimation.
 ///
@@ -89,8 +92,8 @@ class HeroAnimation extends StatefulWidget {
   /// hero with the same [tag] changes its layout position.
   ///
   /// Changes in scale and aspect ratio work well in hero animations, as well as
-  /// changes in layout or composition, which are made according to [FlightState]
-  /// provided by [HeroAnimation.builder].
+  /// changes in layout or composition, which are made according
+  /// to [FlightState] provided by [HeroAnimation.builder].
   final Widget? child;
 
   /// Build [FlightState] aware child subtree. `builder` is called each time
@@ -105,19 +108,23 @@ class HeroAnimation extends StatefulWidget {
   ///       },);
   /// ```
   factory HeroAnimation.builder({
-    Key? key,
     required HeroAnimationBuilder builder,
     required String tag,
+    Key? key,
     Widget? child,
   }) {
     return HeroAnimation._(
-        tag: tag, key: key, heroBuilder: builder, child: child);
+      tag: tag,
+      key: key,
+      heroBuilder: builder,
+      child: child,
+    );
   }
 
   factory HeroAnimation.child({
-    Key? key,
     required String tag,
     required Widget child,
+    Key? key,
   }) {
     return HeroAnimation._(tag: tag, key: key, child: child);
   }
@@ -127,10 +134,10 @@ class HeroAnimation extends StatefulWidget {
   /// If between two frames, the position of a [HeroAnimation] with the same tag
   /// changes, a local hero animation will be triggered.
   const HeroAnimation._({
+    required this.tag,
     Key? key,
     this.child,
     this.heroBuilder,
-    required this.tag,
   }) : super(key: key);
 
   @override

@@ -2,7 +2,7 @@
 
 * First release.
 
-## 1.0.0+1 
+## 1.0.0+1
 
 * Update SDK version.
 
@@ -17,7 +17,7 @@
 ## 1.1.0
 
 * Works in Scrollable.
-* Fixed FlightState update. 
+* Fixed FlightState update.
 
 ## 1.1.1
 
@@ -30,3 +30,7 @@
 ## 1.1.3
 
 * Resolve warnings.
+
+## 1.1.4
+
+* Resolve lint warnings.
